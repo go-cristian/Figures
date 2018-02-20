@@ -2,54 +2,66 @@ package co.iyubinest.shapes;
 
 interface Shape {
 
-  interface ShapeModifier {
+  String value();
+
+  interface ShapePrinter {
     boolean print(int line, int on);
   }
 
-  String value();
-
   final class Builder {
 
+    private static final String STAR = "*";
+    private static final String SPACE = " ";
+    private ShapePrinter modifier = (line, on) -> false;
     private int lines = 1;
-    private Square.ShapeModifier modifier = new Empty();
     private int chars = 1;
 
-    public Builder lines(int lines) {
+    Builder lines(int lines) {
       this.lines = lines;
       return this;
     }
 
-    public Builder chars(int chars) {
+    Builder chars(int chars) {
       this.chars = chars;
       return this;
     }
 
-    public Builder modifier(ShapeModifier modifier) {
+    Builder printer(ShapePrinter modifier) {
       this.modifier = modifier;
       return this;
     }
 
-    public String value() {
+    String value() {
       StringBuilder builder = new StringBuilder();
-      for (int i = 0; i < lines; i++) {
-        for (int j = 0; j < chars; j++) {
-          if (modifier.print(i, j)) {
-            builder.append("*");
-          } else {
-            builder.append(" ");
-          }
-        }
-        if (i != lines - 1) {
-          builder.append("\\n");
-        }
-      }
+      builder.append(allRows());
       return builder.toString();
     }
-  }
 
-  final class Empty implements ShapeModifier {
-    @Override public boolean print(int line, int on) {
-      return false;
+    private StringBuilder allRows() {
+      StringBuilder builder = new StringBuilder();
+      for (int row = 0; row < lines; row++) {
+        builder.append(colsIn(row));
+        if (notLastLine(row)) {
+          builder.append(String.format("%n"));
+        }
+      }
+      return builder;
+    }
+
+    private StringBuilder colsIn(int row) {
+      StringBuilder builder = new StringBuilder();
+      for (int col = 0; col < chars; col++) {
+        builder.append(charFor(row, col));
+      }
+      return builder;
+    }
+
+    private String charFor(int row, int col) {
+      return modifier.print(row, col) ? STAR : SPACE;
+    }
+
+    private boolean notLastLine(int i) {
+      return i != lines - 1;
     }
   }
 }

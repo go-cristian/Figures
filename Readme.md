@@ -5,6 +5,32 @@ Example classes for handling figures. This projects is a result from the
 (by [Carlos Obregon](https://twitter.com/gaijinco)), also is inspired in the book 
 [Elegant Objects](www.yegor256.com/elegant-objects.html). 
 
+#### Shape Builder
+
+The Shape Builder class allows to create forms using a number of repetitions, lines, and 
+a function for print based on the current line and position.
+
+This is an example of printing a diagonal: 
+
+```
+*    
+ *   
+  *  
+   * 
+    *
+```
+
+```java
+new Shape.Builder()
+        .lines(5)
+        .chars(5)
+        .printer((line, on) -> line == on)
+        .value();
+```
+
+Based on different combinations you can print different shapes in differents spaces, like circles, 
+squares or others.  
+
 #### Tests
 
 All the code was created using TDD, so it was more easy to create the implementation.

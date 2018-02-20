@@ -5,15 +5,19 @@ final class Square implements Shape {
   private static final int CHARS = 3;
   private static final int LINES = 3;
 
-  @Override public String value() {
-    return new Shape.Builder()
-        .lines(LINES)
-        .chars(CHARS)
-        .modifier(Square::positionFrom)
-        .value();
+  public static Shape create() {
+    return new Square();
   }
 
   private static boolean positionFrom(int line, int on) {
     return true;
+  }
+
+  @Override public String value() {
+    return new Shape.Builder()
+        .lines(LINES)
+        .chars(CHARS)
+        .printer(Square::positionFrom)
+        .value();
   }
 }

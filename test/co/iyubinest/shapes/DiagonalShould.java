@@ -5,17 +5,19 @@ import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 
-public class TriangleShould {
+public class DiagonalShould {
 
   @Test
   public void be() {
     Assert.assertThat(
-        Triangle.create().value(),
+        Diagonal.create().value(),
         is(
             String.format(
-                      "  *  %n"
-                    + " *** %n"
-                    + "*****"
+                      "*    %n"
+                    + " *   %n"
+                    + "  *  %n"
+                    + "   * %n"
+                    + "    *"
             )
         )
     );
